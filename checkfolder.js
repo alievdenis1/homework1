@@ -1,15 +1,14 @@
 const fs = require('fs');
-var mkdirp = require('mkdirp');
 const path = require('path');
 
-function addFolder (dirname) {
-  mkdirp(dirname, err => {
+var _addFolder = (dirname) => {
+  fs.mkdir(dirname, err => {
     if (err) console.error(err);
     else console.log('new directory:' + dirname);
   });
-}
+};
 
-function writeImg (dirname, localBase, nameFile) {
+var _writeImg = (dirname, localBase, nameFile) => {
   fs.readFile(localBase, (err, data) => {
     if (err) throw err;
     fs.writeFile(path.join(dirname, nameFile), data, (err) => {
@@ -17,13 +16,13 @@ function writeImg (dirname, localBase, nameFile) {
       console.log(path.join(dirname, nameFile));
     });
   });
-}
+};
 
 var checkFolder = (dirname, localBase, nameFile) => {
   if (!fs.existsSync(dirname)) {
-    addFolder(dirname);
+    _addFolder(dirname);
   } else {
-    writeImg(dirname, localBase, nameFile);
+    _writeImg(dirname, localBase, nameFile);
   }
   return 0;
 };
